@@ -8,7 +8,4 @@ module milktea.json {
   exports milktea.json.element;
   exports milktea.json.deserializer;
   exports milktea.json.immutable;
-
-  requires fastjson;
-  requires java.sql;
 }

@@ -1,11 +1,11 @@
-package milktea.json.deserializer;
+package milktea.json.parser;
 
 import milktea.json.JSON;
 import milktea.json.JSONException;
 
 import java.nio.CharBuffer;
 
-public interface Deserializer {
+public interface Parser {
 
     static boolean skipWhitespaces(CharBuffer buffer) {
         while (buffer.hasRemaining()) {

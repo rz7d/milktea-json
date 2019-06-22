@@ -1,5 +1,8 @@
 package milktea.json.standard;
 
+/**
+ * Implements JSON Standard Definitions by RFC 8259.
+ */
 public final class RFC8259 {
 
     public static final char BEGIN_ARRAY_CHAR = '[';

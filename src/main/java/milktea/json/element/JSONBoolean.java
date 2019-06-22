@@ -8,11 +8,6 @@ public interface JSONBoolean extends JSONValue {
     JSONBoolean FALSE = ImmutableJSONBoolean.of(false);
 
     @Override
-    default boolean isBoolean() {
-        return true;
-    }
-
-    @Override
     default <T> T convert(Class<T> type) {
         if (Boolean.class.isAssignableFrom(type))
             return type.cast(value());

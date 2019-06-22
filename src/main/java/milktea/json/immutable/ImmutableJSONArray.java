@@ -1,32 +1,33 @@
 package milktea.json.immutable;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+
 import milktea.json.element.JSONArray;
 import milktea.json.element.JSONValue;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public class ImmutableJSONArray implements JSONArray {
 
-    private final JSONValue[] elements;
+    private final List<JSONValue> elements;
 
-    public ImmutableJSONArray(JSONValue[] elements) {
+    public ImmutableJSONArray(List<JSONValue> elements) {
         this.elements = elements;
     }
 
     @Override
-    public JSONValue[] toArray() {
-        return Arrays.copyOf(elements, elements.length);
-    }
-
-    @Override
-    public int length() {
-        return elements.length;
-    }
-
-    @Override
     public JSONValue get(int index) {
-        return elements[index];
+        return elements.get(index);
+    }
+
+    @Override
+    public int size() {
+        return elements.size();
+    }
+
+    @Override
+    public JSONValue[] toArray() {
+        return elements.toArray(new JSONValue[0]);
     }
 
     @Override
@@ -37,6 +38,11 @@ public class ImmutableJSONArray implements JSONArray {
         if (Objects.equals(type, JSONValue[].class))
             return (T) elements;
         return null;
+    }
+
+    @Override
+    public Iterator<JSONValue> iterator() {
+        return elements.iterator();
     }
 
 }

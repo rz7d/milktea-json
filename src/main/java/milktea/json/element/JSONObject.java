@@ -1,54 +1,44 @@
 package milktea.json.element;
 
-public interface JSONObject extends JSONValue {
+import java.util.Optional;
 
-    @Override
-    default boolean isObject() {
-        return true;
-    }
+public interface JSONObject extends JSONValue {
 
     JSONValue get(String name);
 
-    default <T> T get(String name, Class<T> type) {
+    default <T> Optional<T> get(String name, Class<T> type) {
         var v = get(name);
         if (v == null)
-            return null;
-        return v.convert(type);
-    }
-
-    default JSONObject getObject(String name) {
-        final JSONValue v = get(name);
-        if (v.isObject())
-            return (JSONObject) v;
-        return null;
-    }
-
-    default JSONArray getArray(String name) {
-        final JSONValue v = get(name);
-        if (v.isArray())
-            return (JSONArray) v;
-        return null;
-    }
-
-    default JSONNumber getNumber(String name) {
-        final JSONValue v = get(name);
-        if (v.isNumber())
-            return (JSONNumber) v;
-        return null;
+            return Optional.empty();
+        return Optional.of(v.convert(type));
     }
 
     default String getString(String name) {
-        final JSONValue v = get(name);
-        if (v.isString())
-            return ((JSONString) v).value();
-        return null;
+        return getJSONString(name).value();
     }
 
     default boolean getBoolean(String name) {
-        final JSONValue v = get(name);
-        if (v.isBoolean())
-            return ((JSONBoolean) v).value();
-        throw new ClassCastException();
+        return getJSONBoolean(name).value();
+    }
+
+    default JSONObject getJSONObject(String name) {
+        return (JSONObject) get(name);
+    }
+
+    default JSONArray getJSONArray(String name) {
+        return (JSONArray) get(name);
+    }
+
+    default JSONNumber getJSONNumber(String name) {
+        return (JSONNumber) get(name);
+    }
+
+    default JSONString getJSONString(String name) {
+        return (JSONString) get(name);
+    }
+
+    default JSONBoolean getJSONBoolean(String name) {
+        return (JSONBoolean) get(name);
     }
 
     @Override

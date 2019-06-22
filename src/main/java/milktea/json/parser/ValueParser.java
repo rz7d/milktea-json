@@ -1,4 +1,4 @@
-package milktea.json.deserializer;
+package milktea.json.parser;
 
 import milktea.json.JSON;
 import milktea.json.element.JSONBoolean;
@@ -11,7 +11,7 @@ import milktea.json.standard.RFC8259;
 import java.nio.CharBuffer;
 import java.util.Objects;
 
-public class ValueDeserializer {
+public class ValueParser {
 
     public static JSONValue deserialize(CharSequence text) {
         Objects.requireNonNull(text);
@@ -19,17 +19,17 @@ public class ValueDeserializer {
     }
 
     public static JSONValue deserialize(CharBuffer buffer) {
-        if (!Deserializer.skipWhitespaces(buffer))
-            throw Deserializer.newException("Empty root");
+        if (!Parser.skipWhitespaces(buffer))
+            throw Parser.newException("Empty root");
 
         var c = buffer.get(buffer.position());
         switch (c) {
             case JSON.BEGIN_OBJECT_CHAR:
-                return ObjectDeserializer.deserialize(buffer);
+                return ObjectParser.deserialize(buffer);
             case JSON.BEGIN_ARRAY_CHAR:
-                return ArrayDeserializer.deserialize(buffer);
+                return ArrayParser.deserialize(buffer);
             case JSON.QUOTATION_MARK:
-                return StringDeserializer.deserialize(buffer);
+                return StringParser.deserialize(buffer);
             case 't':
                 return deserializeLiteral(buffer, "true");
             case 'f':
@@ -49,18 +49,18 @@ public class ValueDeserializer {
             case '9':
                 return deserializeNumber(buffer);
         }
-        throw Deserializer.newException("Invalid token: " + c);
+        throw Parser.newException("Invalid token: " + c);
     }
 
     private static JSONValue deserializeLiteral(CharBuffer buffer, String literal) {
         var len = literal.length();
         for (int i = 0; i < len; ++i) {
             if (!buffer.hasRemaining()) {
-                throw Deserializer.newException("Unexpected EOF: " + buffer.rewind().toString());
+                throw Parser.newException("Unexpected EOF: " + buffer.rewind().toString());
             }
             var c = buffer.get();
             if (literal.charAt(i) != c)
-                throw Deserializer.newException("Invalid literal: " + buffer.position(buffer.position() - 1).toString());
+                throw Parser.newException("Invalid literal: " + buffer.position(buffer.position() - 1).toString());
         }
 
         switch (literal) {
@@ -71,12 +71,12 @@ public class ValueDeserializer {
             case "null":
                 return JSONNull.NULL;
         }
-        throw Deserializer.newException("Invalid Literal");
+        throw Parser.newException("Invalid Literal");
     }
 
     private static JSONNumber deserializeNumber(CharBuffer buffer) {
         if (!buffer.hasRemaining())
-            throw Deserializer.newException("Unexcpeted EOF");
+            throw Parser.newException("Unexcpeted EOF");
         var sb = new StringBuilder();
         build:
         while (buffer.hasRemaining()) {
@@ -104,7 +104,7 @@ public class ValueDeserializer {
             default:
                 break;
         }
-        throw Deserializer.newException("token {} is not a valid number");
+        throw Parser.newException("token {} is not a valid number");
     }
 
 }

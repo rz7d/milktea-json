@@ -1,8 +1,8 @@
 package milktea.json;
 
-import milktea.json.deserializer.ValueDeserializer;
 import milktea.json.element.JSONObject;
 import milktea.json.element.JSONValue;
+import milktea.json.parser.ValueParser;
 import milktea.json.standard.RFC8259;
 
 public final class JSON {
@@ -19,7 +19,7 @@ public final class JSON {
     }
 
     public static JSONValue parse(CharSequence text) {
-        return ValueDeserializer.deserialize(text);
+        return ValueParser.deserialize(text);
     }
 
     public static JSONObject parseObject(CharSequence text) {

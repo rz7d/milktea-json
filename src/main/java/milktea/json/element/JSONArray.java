@@ -1,62 +1,56 @@
 package milktea.json.element;
 
 import java.util.Objects;
+import java.util.Optional;
 
-public interface JSONArray extends JSONValue {
+public interface JSONArray extends JSONValue, Iterable<JSONValue> {
 
-    @Override
-    default boolean isArray() {
-        return true;
+    int size();
+
+    JSONValue get(int index);
+
+    default JSONValue[] toArray() {
+        final int size = size();
+        JSONValue[] array = new JSONValue[size];
+        for (int i = 0; i < size; ++i) {
+            array[i] = get(i);
+        }
+        return array;
     }
 
-    JSONValue[] toArray();
-
-    int length();
-
-    default JSONValue get(int index) {
-        return toArray()[index];
-    }
-
-    default <T> T get(int index, Class<T> type) {
+    default <T> Optional<T> get(int index, Class<T> type) {
         var v = get(index);
         if (v == null)
-            return null;
-        return v.convert(type);
-    }
-
-    default JSONObject getObject(int index) {
-        final JSONValue v = get(index);
-        if (v.isObject())
-            return (JSONObject) v;
-        return null;
-    }
-
-    default JSONArray getArray(int index) {
-        final JSONValue v = get(index);
-        if (v.isArray())
-            return (JSONArray) v;
-        return null;
-    }
-
-    default JSONNumber getNumber(int index) {
-        final JSONValue v = get(index);
-        if (v.isNumber())
-            return (JSONNumber) v;
-        return null;
+            return Optional.empty();
+        return Optional.of(v.convert(type));
     }
 
     default String getString(int index) {
-        final JSONValue v = get(index);
-        if (v.isString())
-            return ((JSONString) v).value();
-        return null;
+        return getJSONString(index).value();
     }
 
     default boolean getBoolean(int index) {
-        final JSONValue v = get(index);
-        if (v.isBoolean())
-            return ((JSONBoolean) v).value();
-        throw new ClassCastException();
+        return getJSONBoolean(index).value();
+    }
+
+    default JSONObject getJSONObject(int index) {
+        return (JSONObject) get(index);
+    }
+
+    default JSONArray getJSONArray(int index) {
+        return (JSONArray) get(index);
+    }
+
+    default JSONNumber getJSONNumber(int index) {
+        return (JSONNumber) get(index);
+    }
+
+    default JSONString getJSONString(int index) {
+        return (JSONString) get(index);
+    }
+
+    default JSONBoolean getJSONBoolean(int index) {
+        return (JSONBoolean) get(index);
     }
 
     @Override

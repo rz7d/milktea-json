@@ -9,7 +9,7 @@ import milktea.json.element.JSONArray;
 import milktea.json.element.JSONValue;
 import milktea.json.immutable.ImmutableJSONArray;
 
-class ArrayParser {
+final class ArrayParser {
 
     public static JSONArray deserialize(CharBuffer buffer) {
         if (buffer.get() != JSON.BEGIN_ARRAY_CHAR)

@@ -1,9 +1,6 @@
-# Milktea JSON 4
-Fork of Milktea JSON Advanced Performance
+# Milktea JSON
+stupid simple JSON parser implementation
 
 ## Features
-- RFC8259 ~~Full~~ Compatible
-- Maintainable ~~Serializer/~~ Parser Implementation
-- ~~JIT Compilation~~
-- ~~Super Memory Compression~~
-- ~~Compatibility Layer for Milktea JSON Classic (Milktea JSON 1 to 3)~~
+- ~~RFC8259 Compatible~~ (In progress)
+- Lazy Parser (In progress)

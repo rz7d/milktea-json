@@ -1,14 +1,14 @@
 package com.github.rz7d.commons.json.parser;
 
-import java.nio.CharBuffer;
-import java.util.Objects;
-
-import com.github.rz7d.commons.json.standard.RFC8259;
 import com.github.rz7d.commons.json.lazy.parser.LazyArrayParser;
 import com.github.rz7d.commons.json.lazy.parser.LazyObjectParser;
 import com.github.rz7d.commons.json.model.JSONBoolean;
 import com.github.rz7d.commons.json.model.JSONNull;
 import com.github.rz7d.commons.json.model.JSONValue;
+import com.github.rz7d.commons.json.standard.RFC8259;
+
+import java.nio.CharBuffer;
+import java.util.Objects;
 
 public final class ValueParser {
 

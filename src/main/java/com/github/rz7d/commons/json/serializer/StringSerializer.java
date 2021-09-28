@@ -1,18 +1,11 @@
 package com.github.rz7d.commons.json.serializer;
 
-import java.nio.CharBuffer;
-
 import com.github.rz7d.commons.json.model.JSONString;
 import com.github.rz7d.commons.json.standard.RFC8259;
 
-public final class StringSerializer implements Serializer<JSONString> {
+import java.nio.CharBuffer;
 
-    @Override
-    public void serialize(StringBuilder builder, JSONString value) {
-        builder.append(RFC8259.QUOTATION_MARK);
-        escape(builder, CharBuffer.wrap(value.value()));
-        builder.append(RFC8259.QUOTATION_MARK);
-    }
+public final class StringSerializer implements Serializer<JSONString> {
 
     public static void escape(StringBuilder out, CharBuffer in) {
         while (in.hasRemaining()) {
@@ -57,6 +50,13 @@ public final class StringSerializer implements Serializer<JSONString> {
             }
             out.append(ch);
         }
+    }
+
+    @Override
+    public void serialize(StringBuilder builder, JSONString value) {
+        builder.append(RFC8259.QUOTATION_MARK);
+        escape(builder, CharBuffer.wrap(value.value()));
+        builder.append(RFC8259.QUOTATION_MARK);
     }
 
 }

@@ -9,6 +9,57 @@ import java.util.stream.StreamSupport;
 
 public interface JSONArray extends JSONValue, Iterable<JSONValue> {
 
+    static JSONArray of(List<JSONValue> values) {
+        return ImmutableJSONArray.of(values);
+    }
+
+    static JSONArray empty() {
+        return ImmutableJSONArray.empty();
+    }
+
+    static Builder builder() {
+        return ImmutableJSONArray.builder();
+    }
+
+    default Stream<JSONValue> stream() {
+        return StreamSupport.stream(spliterator(), false);
+    }
+
+    default Stream<JSONValue> parallelStream() {
+        return StreamSupport.stream(spliterator(), true);
+    }
+
+    @Override
+    default JSONArray asArray() {
+        return this;
+    }
+
+    // Query Operations
+
+    int size();
+
+    JSONValue get(int index);
+
+    default JSONObject getObject(int index) {
+        return (JSONObject) get(index);
+    }
+
+    default JSONArray getArray(int index) {
+        return (JSONArray) get(index);
+    }
+
+    default JSONNumber getNumber(int index) {
+        return (JSONNumber) get(index);
+    }
+
+    default JSONString getString(int index) {
+        return (JSONString) get(index);
+    }
+
+    default JSONBoolean getBoolean(int index) {
+        return (JSONBoolean) get(index);
+    }
+
     interface Builder extends Consumer<JSONValue> {
 
         @Override
@@ -48,57 +99,6 @@ public interface JSONArray extends JSONValue, Iterable<JSONValue> {
 
         JSONArray build();
 
-    }
-
-    static JSONArray of(List<JSONValue> values) {
-        return ImmutableJSONArray.of(values);
-    }
-
-    static JSONArray empty() {
-        return ImmutableJSONArray.empty();
-    }
-
-    static Builder builder() {
-        return ImmutableJSONArray.builder();
-    }
-
-    default Stream<JSONValue> stream() {
-        return StreamSupport.stream(spliterator(), false);
-    }
-
-    default Stream<JSONValue> parallelStream() {
-        return StreamSupport.stream(spliterator(), true);
-    }
-
-    // Query Operations
-
-    @Override
-    default JSONArray asArray() {
-        return this;
-    }
-
-    int size();
-
-    JSONValue get(int index);
-
-    default JSONObject getObject(int index) {
-        return (JSONObject) get(index);
-    }
-
-    default JSONArray getArray(int index) {
-        return (JSONArray) get(index);
-    }
-
-    default JSONNumber getNumber(int index) {
-        return (JSONNumber) get(index);
-    }
-
-    default JSONString getString(int index) {
-        return (JSONString) get(index);
-    }
-
-    default JSONBoolean getBoolean(int index) {
-        return (JSONBoolean) get(index);
     }
 
 }

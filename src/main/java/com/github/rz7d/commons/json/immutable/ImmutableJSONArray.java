@@ -9,25 +9,10 @@ import java.util.stream.Stream;
 public final class ImmutableJSONArray extends ImmutableJSONValue implements JSONArray {
 
     private static final ImmutableJSONArray EMPTY = new ImmutableJSONArray(Collections.emptyList());
+    private final List<JSONValue> list;
 
-    private static final class Builder implements JSONArray.Builder {
-
-        private final ArrayList<JSONValue> elements = new ArrayList<>();
-
-        Builder() {
-        }
-
-        @Override
-        public void accept(JSONValue element) {
-            elements.add(element);
-        }
-
-        public ImmutableJSONArray build() {
-            if (elements.isEmpty())
-                return EMPTY;
-            return new ImmutableJSONArray(elements);
-        }
-
+    private ImmutableJSONArray(List<JSONValue> elements) {
+        this.list = elements;
     }
 
     public static ImmutableJSONArray empty() {
@@ -40,12 +25,6 @@ public final class ImmutableJSONArray extends ImmutableJSONValue implements JSON
 
     public static JSONArray.Builder builder() {
         return new Builder();
-    }
-
-    private final List<JSONValue> list;
-
-    private ImmutableJSONArray(List<JSONValue> elements) {
-        this.list = elements;
     }
 
     @Override
@@ -95,6 +74,26 @@ public final class ImmutableJSONArray extends ImmutableJSONValue implements JSON
         } else {
             return this.list.equals(other.list);
         }
+    }
+
+    private static final class Builder implements JSONArray.Builder {
+
+        private final ArrayList<JSONValue> elements = new ArrayList<>();
+
+        Builder() {
+        }
+
+        @Override
+        public void accept(JSONValue element) {
+            elements.add(element);
+        }
+
+        public ImmutableJSONArray build() {
+            if (elements.isEmpty())
+                return EMPTY;
+            return new ImmutableJSONArray(elements);
+        }
+
     }
 
 }

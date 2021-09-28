@@ -1,10 +1,10 @@
 package com.github.rz7d.commons.json.parser;
 
-import java.nio.CharBuffer;
-
 import com.github.rz7d.commons.json.immutable.ImmutableJSONString;
-import com.github.rz7d.commons.json.standard.RFC8259;
 import com.github.rz7d.commons.json.model.JSONString;
+import com.github.rz7d.commons.json.standard.RFC8259;
+
+import java.nio.CharBuffer;
 
 public final class StringParser {
 

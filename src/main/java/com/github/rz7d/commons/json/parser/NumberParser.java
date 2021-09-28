@@ -1,8 +1,8 @@
 package com.github.rz7d.commons.json.parser;
 
 import com.github.rz7d.commons.json.immutable.ImmutableJSONNumber;
-import com.github.rz7d.commons.json.standard.RFC8259;
 import com.github.rz7d.commons.json.model.JSONNumber;
+import com.github.rz7d.commons.json.standard.RFC8259;
 
 import java.nio.CharBuffer;
 

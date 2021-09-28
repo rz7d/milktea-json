@@ -1,10 +1,7 @@
 package com.github.rz7d.commons.json.internal;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public final class Iterables {
 

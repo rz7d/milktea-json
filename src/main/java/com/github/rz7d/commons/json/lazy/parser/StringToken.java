@@ -1,9 +1,9 @@
 package com.github.rz7d.commons.json.lazy.parser;
 
-import java.nio.CharBuffer;
-
 import com.github.rz7d.commons.json.model.JSONString;
 import com.github.rz7d.commons.json.parser.StringParser;
+
+import java.nio.CharBuffer;
 
 public final class StringToken extends Token<JSONString> {
 

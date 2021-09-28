@@ -16,6 +16,10 @@ import java.nio.CharBuffer;
 
 public final class ValueToken extends Token<JSONValue> {
 
+    private ValueToken(CharBuffer token) {
+        super(token);
+    }
+
     private static void skipWhileInNest(CharBuffer input, char pushMarker, char popMarker) {
         int stack = 1;
         while (input.hasRemaining()) {
@@ -79,10 +83,6 @@ public final class ValueToken extends Token<JSONValue> {
         ValueToken t = new ValueToken(token.duplicate());
         // TODO: Refactor this
         return skip(token) ? null : t;
-    }
-
-    private ValueToken(CharBuffer token) {
-        super(token);
     }
 
     @Override

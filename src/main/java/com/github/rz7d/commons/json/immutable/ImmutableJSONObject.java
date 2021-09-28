@@ -10,27 +10,10 @@ import java.util.Map.Entry;
 public final class ImmutableJSONObject extends ImmutableJSONValue implements JSONObject {
 
     private static final ImmutableJSONObject EMPTY = new ImmutableJSONObject(Collections.emptyMap());
+    private final Map<String, ? extends JSONValue> map;
 
-    private static final class Builder implements JSONObject.Builder {
-
-        private final HashMap<String, JSONValue> map = new LinkedHashMap<>();
-
-        Builder() {
-        }
-
-        @Override
-        public void accept(String key, JSONValue value) {
-            map.put(key, value);
-        }
-
-        @Override
-        public JSONObject build() {
-            if (map.isEmpty()) {
-                return EMPTY;
-            }
-            return new ImmutableJSONObject(map);
-        }
-
+    private ImmutableJSONObject(Map<String, ? extends JSONValue> map) {
+        this.map = map;
     }
 
     public static ImmutableJSONObject empty() {
@@ -43,12 +26,6 @@ public final class ImmutableJSONObject extends ImmutableJSONValue implements JSO
 
     public static JSONObject.Builder builder() {
         return new Builder();
-    }
-
-    private final Map<String, ? extends JSONValue> map;
-
-    private ImmutableJSONObject(Map<String, ? extends JSONValue> map) {
-        this.map = map;
     }
 
     @Override
@@ -78,6 +55,28 @@ public final class ImmutableJSONObject extends ImmutableJSONValue implements JSO
     @Override
     public boolean equals(Object obj) {
         return obj instanceof JSONObject && Iterables.equals(((JSONObject) obj), this);
+    }
+
+    private static final class Builder implements JSONObject.Builder {
+
+        private final HashMap<String, JSONValue> map = new LinkedHashMap<>();
+
+        Builder() {
+        }
+
+        @Override
+        public void accept(String key, JSONValue value) {
+            map.put(key, value);
+        }
+
+        @Override
+        public JSONObject build() {
+            if (map.isEmpty()) {
+                return EMPTY;
+            }
+            return new ImmutableJSONObject(map);
+        }
+
     }
 
 }

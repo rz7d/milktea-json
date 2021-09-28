@@ -1,20 +1,17 @@
 package com.github.rz7d.commons.json.immutable;
 
-import com.github.rz7d.commons.json.internal.Cache;
 import com.github.rz7d.commons.json.model.JSONNumber;
 
 public final class ImmutableJSONNumber extends ImmutableJSONValue implements JSONNumber {
-
-    private static final Cache<Number, ImmutableJSONNumber> CACHE = new Cache<>(ImmutableJSONNumber::new);
-
-    public static ImmutableJSONNumber of(Number value) {
-        return CACHE.get(value);
-    }
 
     private final Number value;
 
     private ImmutableJSONNumber(Number value) {
         this.value = value;
+    }
+
+    public static ImmutableJSONNumber of(Number value) {
+        return new ImmutableJSONNumber(value);
     }
 
     @Override

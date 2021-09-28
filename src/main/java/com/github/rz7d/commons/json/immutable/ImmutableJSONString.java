@@ -1,6 +1,5 @@
 package com.github.rz7d.commons.json.immutable;
 
-import com.github.rz7d.commons.json.internal.Cache;
 import com.github.rz7d.commons.json.model.JSONString;
 
 import java.util.Objects;
@@ -8,21 +7,18 @@ import java.util.Objects;
 public final class ImmutableJSONString extends ImmutableJSONValue implements JSONString {
 
     private static final ImmutableJSONString EMPTY = new ImmutableJSONString("");
+    private final String value;
 
-    private static final Cache<String, ImmutableJSONString> CACHE = new Cache<>(ImmutableJSONString::new);
+    private ImmutableJSONString(String value) {
+        this.value = value;
+    }
 
     public static ImmutableJSONString empty() {
         return EMPTY;
     }
 
     public static ImmutableJSONString of(String value) {
-        return value.isEmpty() ? EMPTY : CACHE.get(value);
-    }
-
-    private final String value;
-
-    private ImmutableJSONString(String value) {
-        this.value = value;
+        return value.isEmpty() ? EMPTY : new ImmutableJSONString(value);
     }
 
     @Override

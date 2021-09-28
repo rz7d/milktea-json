@@ -1,11 +1,10 @@
 package com.github.rz7d.commons.json.parser;
 
+import com.github.rz7d.commons.json.JSONParseException;
+import com.github.rz7d.commons.json.standard.RFC8259;
+
 import java.nio.CharBuffer;
 import java.util.function.Supplier;
-
-import com.github.rz7d.commons.json.internal.Exceptions;
-import com.github.rz7d.commons.json.standard.RFC8259;
-import com.github.rz7d.commons.json.JSONParseException;
 
 public final class Parser {
 

@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JSONTest {
+public class JSONParseTest {
 
     @SuppressWarnings("unchecked")
     private static <T extends JSONValue> void parseThen(String expression, Class<T> type, Consumer<T> action) {

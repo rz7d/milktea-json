@@ -1,8 +1,5 @@
-package com.github.rz7d.commons.json.lazy.parser;
+package com.github.rz7d.commons.json.lazy;
 
-import com.github.rz7d.commons.json.lazy.LazyJSONArray;
-import com.github.rz7d.commons.json.lazy.LazyJSONObject;
-import com.github.rz7d.commons.json.lazy.LazyJSONString;
 import com.github.rz7d.commons.json.model.JSONBoolean;
 import com.github.rz7d.commons.json.model.JSONNull;
 import com.github.rz7d.commons.json.model.JSONValue;
@@ -14,11 +11,7 @@ import com.github.rz7d.commons.json.standard.RFC8259;
 
 import java.nio.CharBuffer;
 
-public final class ValueToken extends Token<JSONValue> {
-
-    private ValueToken(CharBuffer token) {
-        super(token);
-    }
+public final class LazyToken extends Lazy<JSONValue> {
 
     private static void skipWhileInNest(CharBuffer input, char pushMarker, char popMarker) {
         int stack = 1;
@@ -39,16 +32,16 @@ public final class ValueToken extends Token<JSONValue> {
      */
     private static boolean skip(CharBuffer expression) {
         switch (expression.get()) {
-            case '}':
-            case ']':
+            case RFC8259.END_OBJECT_CHAR:
+            case RFC8259.END_ARRAY_CHAR:
                 return true;
-            case '{':
-                skipWhileInNest(expression, '{', '}');
+            case RFC8259.BEGIN_OBJECT_CHAR:
+                skipWhileInNest(expression, RFC8259.BEGIN_OBJECT_CHAR, RFC8259.END_OBJECT_CHAR);
                 break;
-            case '[':
-                skipWhileInNest(expression, '[', ']');
+            case RFC8259.BEGIN_ARRAY_CHAR:
+                skipWhileInNest(expression, RFC8259.BEGIN_ARRAY_CHAR, RFC8259.END_ARRAY_CHAR);
                 break;
-            case '"':
+            case RFC8259.QUOTATION_MARK:
                 // TODO: Performance
                 StringParser.scan(expression);
                 break;
@@ -79,10 +72,13 @@ public final class ValueToken extends Token<JSONValue> {
         return false;
     }
 
-    public static ValueToken create(CharBuffer token) {
-        ValueToken t = new ValueToken(token.duplicate());
-        // TODO: Refactor this
-        return skip(token) ? null : t;
+    public static LazyToken create(CharBuffer token) {
+        CharBuffer mark = token.duplicate();
+        return skip(token) ? null : new LazyToken(mark);
+    }
+
+    private LazyToken(CharBuffer token) {
+        super(token);
     }
 
     @Override
@@ -91,12 +87,11 @@ public final class ValueToken extends Token<JSONValue> {
         char c = token.get(token.position());
         switch (c) {
             case RFC8259.BEGIN_OBJECT_CHAR:
-                token.get(); // FIXME for LazyObjectParser Bug
-                return new LazyJSONObject(LazyObjectParser.scan(token));
+                return LazyJSONObject.parse(token);
             case RFC8259.BEGIN_ARRAY_CHAR:
-                return new LazyJSONArray(LazyArrayParser.scan(token));
+                return LazyJSONArray.parse(token);
             case RFC8259.QUOTATION_MARK:
-                return new LazyJSONString(new StringToken(token));
+                return StringParser.parse(token);
             case 't':
                 return LiteralParser.parse(token, "true", JSONBoolean.TRUE);
             case 'f':

@@ -1,11 +1,10 @@
 package com.github.rz7d.commons.json.lazy;
 
-import com.github.rz7d.commons.json.lazy.parser.Token;
 import com.github.rz7d.commons.json.model.JSONString;
 
 public final class LazyJSONString extends LazyJSONValue<JSONString> implements JSONString {
 
-    public LazyJSONString(Token<JSONString> token) {
+    public LazyJSONString(Lazy<JSONString> token) {
         super(token);
     }
 

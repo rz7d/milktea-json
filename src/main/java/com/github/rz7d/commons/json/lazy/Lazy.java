@@ -1,8 +1,8 @@
-package com.github.rz7d.commons.json.lazy.parser;
+package com.github.rz7d.commons.json.lazy;
 
 import java.nio.CharBuffer;
 
-public abstract class Token<V> {
+abstract class Lazy<V> {
 
     protected final CharBuffer token;
 
@@ -12,7 +12,7 @@ public abstract class Token<V> {
 
     private volatile V cache;
 
-    protected Token(CharBuffer token) {
+    protected Lazy(CharBuffer token) {
         this.token = token;
     }
 

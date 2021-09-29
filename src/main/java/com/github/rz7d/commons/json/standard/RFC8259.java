@@ -22,10 +22,6 @@ public final class RFC8259 {
         return ch == 0x20 || ch == 0x09 || ch == 0x0A || ch == 0x0D;
     }
 
-    public static boolean isNumber(CharBuffer expression) {
-        return determineNumberType(expression) != NumberType.NOT_A_NUMBER;
-    }
-
     public static NumberType determineNumberType(CharBuffer expression) {
         final int length = expression.length();
         if (length == 0)

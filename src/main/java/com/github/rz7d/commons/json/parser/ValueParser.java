@@ -1,7 +1,7 @@
 package com.github.rz7d.commons.json.parser;
 
-import com.github.rz7d.commons.json.lazy.parser.LazyArrayParser;
-import com.github.rz7d.commons.json.lazy.parser.LazyObjectParser;
+import com.github.rz7d.commons.json.lazy.LazyJSONArray;
+import com.github.rz7d.commons.json.lazy.LazyJSONObject;
 import com.github.rz7d.commons.json.model.JSONBoolean;
 import com.github.rz7d.commons.json.model.JSONNull;
 import com.github.rz7d.commons.json.model.JSONValue;
@@ -24,9 +24,9 @@ public final class ValueParser {
         char c = input.get(input.position());
         switch (c) {
             case RFC8259.BEGIN_OBJECT_CHAR:
-                return LazyObjectParser.parse(input);
+                return LazyJSONObject.parse(input);
             case RFC8259.BEGIN_ARRAY_CHAR:
-                return LazyArrayParser.parse(input);
+                return LazyJSONArray.parse(input);
             case RFC8259.QUOTATION_MARK:
                 return StringParser.parse(input);
             case 't':

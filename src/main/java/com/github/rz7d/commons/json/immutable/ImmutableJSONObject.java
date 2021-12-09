@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 public final class ImmutableJSONObject extends ImmutableJSONValue implements JSONObject {
 
     private static final ImmutableJSONObject EMPTY = new ImmutableJSONObject(Collections.emptyMap());
+
     public static ImmutableJSONObject empty() {
         return EMPTY;
     }

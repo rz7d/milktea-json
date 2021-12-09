@@ -26,4 +26,9 @@ public final class ImmutableJSONBoolean extends ImmutableJSONValue implements JS
         return obj == this;
     }
 
+    @Override
+    public String toString() {
+        return this == TRUE ? "true" : "false";
+    }
+
 }

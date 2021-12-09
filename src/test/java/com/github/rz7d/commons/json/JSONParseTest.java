@@ -67,6 +67,22 @@ public class JSONParseTest {
                 assertEquals(334, object.getNumber("property3").value().intValue());
                 assertEquals(1337, object.getObject("property4").getNumber("innerProperty1").value().intValue());
             });
+
+        parseThen("{\"nested\":null}", JSONObject.class, obj -> {
+            assertInstanceOf(JSONNull.class, obj.get("nested"));
+        });
+        parseThen("{\"nestedTrue\":true,\"nestedFalse\":false}", JSONObject.class, obj -> {
+            assertInstanceOf(JSONBoolean.class, obj.get("nestedTrue"));
+            assertInstanceOf(JSONBoolean.class, obj.get("nestedFalse"));
+        });
+        parseThen("{\"nestedNumber\":2}", JSONObject.class, obj -> {
+            assertInstanceOf(JSONNumber.class, obj.get("nestedNumber"));
+            assertEquals(2, obj.getNumber("nestedNumber").value().intValue());
+        });
+        parseThen("{\"nestedString\":\"Hello \\u3042\\u3042\\u3042\\u3042\"}", JSONObject.class, obj -> {
+            assertInstanceOf(JSONString.class, obj.get("nestedString"));
+            assertEquals("Hello \u3042\u3042\u3042\u3042", obj.getString("nestedString").value());
+        });
     }
 
 }

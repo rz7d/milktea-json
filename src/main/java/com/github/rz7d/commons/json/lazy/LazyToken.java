@@ -60,12 +60,15 @@ public final class LazyToken extends Lazy<JSONValue> {
                 NumberParser.parse(expression);
                 break;
             case 't':
+                expression.position(expression.position() - 1);
                 LiteralParser.parse(expression, "true", JSONBoolean.TRUE);
                 break;
             case 'f':
+                expression.position(expression.position() - 1);
                 LiteralParser.parse(expression, "false", JSONBoolean.FALSE);
                 break;
             case 'n':
+                expression.position(expression.position() - 1);
                 LiteralParser.parse(expression, "null", JSONNull.NULL);
                 break;
         }

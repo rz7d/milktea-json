@@ -15,11 +15,12 @@ public final class LiteralParser {
             throw Parser.newException("Length mismatch (buffer < literal)");
         }
         CharBuffer testSequence = buffer.duplicate();
-        testSequence.limit(buffer.position() + length);
+        testSequence.limit(testSequence.position() + length);
         if (!testSequence.equals(CharBuffer.wrap(literal))) {
             String actual = testSequence.toString();
             throw Parser.newException("Unrecognized bool literal: " + actual);
         }
+        buffer.position(buffer.position() + length);
         return value;
     }
 
